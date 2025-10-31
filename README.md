@@ -15,7 +15,26 @@ A 2D top-down exploration game inspired by classic Pokémon games, built with Ph
 
 ## How to Run
 
-### Option 1: Simple HTTP Server (Python)
+### Option 1: GitHub Pages (Recommended for Mobile Testing)
+The game is automatically deployed to GitHub Pages! Just visit:
+```
+https://evangelinensy.github.io/letter/
+```
+
+**To enable GitHub Pages:**
+1. Go to your GitHub repository settings
+2. Navigate to "Pages" section
+3. Under "Source", select "GitHub Actions"
+4. The site will deploy automatically on every push to main/master
+
+**For personalized links:**
+```
+https://evangelinensy.github.io/letter/?friend=john
+```
+
+### Option 2: Local Development
+
+**Simple HTTP Server (Python):**
 ```bash
 # Python 3
 python3 -m http.server 8000
@@ -26,14 +45,30 @@ python -m SimpleHTTPServer 8000
 
 Then open: `http://localhost:8000`
 
-### Option 2: Node.js HTTP Server
+**Node.js HTTP Server:**
 ```bash
 npx http-server -p 8000
 ```
 
 Then open: `http://localhost:8000`
 
-### Option 3: VS Code Live Server
+### Option 3: Test on Mobile (Same WiFi)
+1. Start a local server on your computer (Option 2)
+2. Find your computer's IP address:
+   ```bash
+   # Mac/Linux
+   ifconfig | grep "inet " | grep -v 127.0.0.1
+
+   # Windows
+   ipconfig
+   ```
+3. On your phone (connected to same WiFi), open:
+   ```
+   http://YOUR_IP_ADDRESS:8000
+   ```
+   Example: `http://192.168.1.105:8000`
+
+### Option 4: VS Code Live Server
 1. Install "Live Server" extension in VS Code
 2. Right-click `index.html`
 3. Select "Open with Live Server"
