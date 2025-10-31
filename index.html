@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>House Exploration Game</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div id="game-container"></div>
+
+    <!-- Touch Controls for Mobile -->
+    <div id="touch-controls" class="touch-controls">
+        <div class="dpad">
+            <button class="dpad-btn up" data-direction="up">↑</button>
+            <button class="dpad-btn left" data-direction="left">←</button>
+            <button class="dpad-btn right" data-direction="right">→</button>
+            <button class="dpad-btn down" data-direction="down">↓</button>
+        </div>
+        <button class="action-btn" id="interact-btn">A</button>
+    </div>
+
+    <!-- Dialogue Box -->
+    <div id="dialogue-box" class="dialogue-box hidden">
+        <div class="dialogue-content">
+            <p id="dialogue-text"></p>
+            <button id="dialogue-next">▼</button>
+        </div>
+    </div>
+
+    <!-- Loading Phaser from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+
+    <!-- Game Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/scenes/PreloadScene.js"></script>
+    <script src="js/scenes/GameScene.js"></script>
+    <script src="js/controls/TouchControls.js"></script>
+    <script src="js/entities/Player.js"></script>
+    <script src="js/entities/NPC.js"></script>
+    <script src="js/ui/DialogueManager.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

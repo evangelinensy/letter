@@ -1,0 +1,177 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    background-color: #000;
+    overflow: hidden;
+    touch-action: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#game-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+/* Touch Controls */
+.touch-controls {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    pointer-events: none;
+    z-index: 1000;
+    display: none; /* Hidden by default, shown on mobile */
+}
+
+@media (max-width: 768px) {
+    .touch-controls {
+        display: block;
+    }
+}
+
+.dpad {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 140px;
+    height: 140px;
+    pointer-events: auto;
+}
+
+.dpad-btn {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: all 0.1s;
+}
+
+.dpad-btn:active {
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0.95);
+}
+
+.dpad-btn.up {
+    top: 0;
+    left: 47px;
+}
+
+.dpad-btn.down {
+    bottom: 0;
+    left: 47px;
+}
+
+.dpad-btn.left {
+    top: 47px;
+    left: 0;
+}
+
+.dpad-btn.right {
+    top: 47px;
+    right: 0;
+}
+
+.action-btn {
+    position: absolute;
+    bottom: 50px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 80, 80, 0.4);
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+    touch-action: manipulation;
+    transition: all 0.1s;
+}
+
+.action-btn:active {
+    background: rgba(255, 80, 80, 0.7);
+    transform: scale(0.95);
+}
+
+/* Dialogue Box */
+.dialogue-box {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 4px solid white;
+    border-radius: 8px;
+    padding: 20px;
+    z-index: 2000;
+    color: white;
+    font-size: 14px;
+    line-height: 1.6;
+    pointer-events: auto;
+}
+
+.dialogue-box.hidden {
+    display: none;
+}
+
+.dialogue-content p {
+    margin-bottom: 10px;
+    min-height: 60px;
+}
+
+#dialogue-next {
+    float: right;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.3; }
+}
+
+@media (max-width: 768px) {
+    .dialogue-box {
+        font-size: 12px;
+        padding: 15px;
+        bottom: 220px; /* Above touch controls */
+    }
+
+    .dialogue-content p {
+        min-height: 50px;
+    }
+}
