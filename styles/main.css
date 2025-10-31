@@ -149,6 +149,22 @@ canvas {
     min-height: 60px;
 }
 
+.dialogue-image-container {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.dialogue-image-container.hidden {
+    display: none;
+}
+
+.dialogue-image-container img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 4px;
+    border: 2px solid white;
+}
+
 #dialogue-next {
     float: right;
     background: transparent;

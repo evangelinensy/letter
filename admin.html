@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Friend Personalization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .greeting-list {
+            margin-bottom: 10px;
+        }
+
+        .greeting-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .greeting-item input {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-small {
+            padding: 5px 12px;
+            font-size: 12px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .output-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f1f3f5;
+            border-radius: 8px;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .url-preview {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 2px solid #667eea;
+            margin-top: 15px;
+        }
+
+        .url-preview a {
+            color: #667eea;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .url-preview a:hover {
+            text-decoration: underline;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .object-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .object-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .object-card {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .object-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 House Exploration Game - Admin Panel</h1>
+        <p class="subtitle">Configure personalized experiences for each friend</p>
+
+        <div class="section">
+            <h2>Friend Configuration</h2>
+            <div class="form-group">
+                <label for="friendId">Friend ID (URL parameter)</label>
+                <input type="text" id="friendId" placeholder="e.g., sarah, john, mei" value="sarah">
+                <small style="color: #666;">This will be used in the URL: ?friend=<strong id="friend-preview">sarah</strong></small>
+            </div>
+
+            <div class="form-group">
+                <label for="npcName">NPC Name (Your name in the game)</label>
+                <input type="text" id="npcName" placeholder="e.g., Evangeline" value="Evangeline">
+            </div>
+
+            <div class="form-group">
+                <label>NPC Greeting (Multiple lines)</label>
+                <div class="greeting-list" id="greetingList">
+                    <div class="greeting-item">
+                        <input type="text" class="greeting-line" value="Hey! Welcome!">
+                        <button class="btn btn-secondary btn-small" onclick="removeGreeting(this)">✕</button>
+                    </div>
+                </div>
+                <button class="btn btn-secondary btn-small" onclick="addGreeting()">+ Add Line</button>
+            </div>
+
+            <div class="form-group">
+                <label for="theme">Theme</label>
+                <select id="theme" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 6px;">
+                    <option value="birthday">Birthday</option>
+                    <option value="cny">Chinese New Year</option>
+                    <option value="general">General</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Interactive Objects</h2>
+            <div class="object-grid">
+                <div class="object-card">
+                    <h3>📚 Bookshelf</h3>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="bookshelf-message" placeholder="Your personalized message...">Remember when we stayed up all night reading this series?</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL (optional)</label>
+                        <input type="text" id="bookshelf-image" placeholder="https://...">
+                    </div>
+                </div>
+
+                <div class="object-card">
+                    <h3>🪴 Table</h3>
+                    <div class="form-group">
+                        <label>Message (include gift card here!)</label>
+                        <textarea id="table-message" placeholder="Happy Birthday! Here's your gift card...">Happy Birthday! Gift Card: XXXX-XXXX-XXXX</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL (optional)</label>
+                        <input type="text" id="table-image" placeholder="https://...">
+                    </div>
+                </div>
+
+                <div class="object-card">
+                    <h3>🌱 Plant</h3>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="plant-message" placeholder="Your personalized message...">This plant reminds me of you!</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL (optional)</label>
+                        <input type="text" id="plant-image" placeholder="https://...">
+                    </div>
+                </div>
+
+                <div class="object-card">
+                    <h3>🪞 Mirror</h3>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="mirror-message" placeholder="Your personalized message...">You're amazing! Have a great day!</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL (optional)</label>
+                        <input type="text" id="mirror-image" placeholder="https://...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-primary" onclick="generateConfig()">Generate Configuration</button>
+            <button class="btn btn-secondary" onclick="loadExample()">Load Example</button>
+        </div>
+
+        <div class="output-section" id="output" style="display: none;">
+            <h2>Generated Configuration</h2>
+            <p style="margin-bottom: 15px;">Copy this code and add it to <code>js/config.js</code> in the <code>personalizedData</code> object:</p>
+            <pre class="code-block" id="codeOutput"></pre>
+
+            <div class="tip">
+                💡 <strong>Tip:</strong> Open <code>js/config.js</code> and add this friend configuration to the <code>personalizedData</code> object.
+            </div>
+
+            <div class="url-preview">
+                <strong>Share this URL:</strong><br>
+                <a href="#" id="gameUrl" target="_blank"></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update friend preview as user types
+        document.getElementById('friendId').addEventListener('input', (e) => {
+            document.getElementById('friend-preview').textContent = e.target.value || 'friendId';
+        });
+
+        function addGreeting() {
+            const list = document.getElementById('greetingList');
+            const item = document.createElement('div');
+            item.className = 'greeting-item';
+            item.innerHTML = `
+                <input type="text" class="greeting-line" placeholder="Type a greeting line...">
+                <button class="btn btn-secondary btn-small" onclick="removeGreeting(this)">✕</button>
+            `;
+            list.appendChild(item);
+        }
+
+        function removeGreeting(btn) {
+            const items = document.querySelectorAll('.greeting-item');
+            if (items.length > 1) {
+                btn.parentElement.remove();
+            } else {
+                alert('You must have at least one greeting line!');
+            }
+        }
+
+        function loadExample() {
+            document.getElementById('friendId').value = 'sarah';
+            document.getElementById('npcName').value = 'Evangeline';
+            document.getElementById('theme').value = 'birthday';
+
+            const greetingList = document.getElementById('greetingList');
+            greetingList.innerHTML = `
+                <div class="greeting-item">
+                    <input type="text" class="greeting-line" value="Sarah! You made it! 🎉">
+                    <button class="btn btn-secondary btn-small" onclick="removeGreeting(this)">✕</button>
+                </div>
+                <div class="greeting-item">
+                    <input type="text" class="greeting-line" value="I'm so happy you're here!">
+                    <button class="btn btn-secondary btn-small" onclick="removeGreeting(this)">✕</button>
+                </div>
+                <div class="greeting-item">
+                    <input type="text" class="greeting-line" value="I've left some special surprises around the house just for you.">
+                    <button class="btn btn-secondary btn-small" onclick="removeGreeting(this)">✕</button>
+                </div>
+            `;
+
+            document.getElementById('bookshelf-message').value = "Remember when we stayed up all night reading this series? Those were the days! 📚💕";
+            document.getElementById('bookshelf-image').value = "";
+            document.getElementById('table-message').value = "Happy Birthday Sarah! 🎂 Here's a little gift for you: Starbucks Gift Card: XXXX-XXXX-XXXX";
+            document.getElementById('table-image').value = "";
+            document.getElementById('plant-message').value = "This succulent reminds me of the one you gave me. Thanks for always being such a caring friend! 🌱";
+            document.getElementById('plant-image').value = "";
+            document.getElementById('mirror-message').value = "You're amazing Sarah! Never forget how special you are! ✨💖";
+            document.getElementById('mirror-image').value = "";
+
+            document.getElementById('friend-preview').textContent = 'sarah';
+        }
+
+        function generateConfig() {
+            const friendId = document.getElementById('friendId').value.trim();
+            const npcName = document.getElementById('npcName').value.trim();
+            const theme = document.getElementById('theme').value;
+
+            if (!friendId) {
+                alert('Please enter a Friend ID!');
+                return;
+            }
+
+            // Get all greeting lines
+            const greetingLines = Array.from(document.querySelectorAll('.greeting-line'))
+                .map(input => input.value.trim())
+                .filter(line => line.length > 0);
+
+            // Get object data
+            const objects = {
+                bookshelf: {
+                    message: document.getElementById('bookshelf-message').value.trim(),
+                    imageUrl: document.getElementById('bookshelf-image').value.trim() || null
+                },
+                table: {
+                    message: document.getElementById('table-message').value.trim(),
+                    imageUrl: document.getElementById('table-image').value.trim() || null
+                },
+                plant: {
+                    message: document.getElementById('plant-message').value.trim(),
+                    imageUrl: document.getElementById('plant-image').value.trim() || null
+                },
+                mirror: {
+                    message: document.getElementById('mirror-message').value.trim(),
+                    imageUrl: document.getElementById('mirror-image').value.trim() || null
+                }
+            };
+
+            // Generate the config object
+            const config = {
+                [friendId]: {
+                    npcName: npcName,
+                    npcGreeting: greetingLines,
+                    surprises: {
+                        bookshelf: {
+                            message: objects.bookshelf.message,
+                            imageUrl: objects.bookshelf.imageUrl,
+                            revealed: false
+                        },
+                        table: {
+                            message: objects.table.message,
+                            imageUrl: objects.table.imageUrl,
+                            revealed: false
+                        },
+                        plant: {
+                            message: objects.plant.message,
+                            imageUrl: objects.plant.imageUrl,
+                            revealed: false
+                        },
+                        mirror: {
+                            message: objects.mirror.message,
+                            imageUrl: objects.mirror.imageUrl,
+                            revealed: false
+                        }
+                    },
+                    theme: theme
+                }
+            };
+
+            // Format as JavaScript code
+            const codeOutput = JSON.stringify(config, null, 4)
+                .replace(/"([^"]+)":/g, '$1:')  // Remove quotes from keys
+                .replace(/: null/g, ': null');   // Keep null values
+
+            // Display output
+            document.getElementById('codeOutput').textContent = codeOutput.replace(/^{/, '').replace(/}$/, '').trim() + ',';
+            document.getElementById('output').style.display = 'block';
+
+            // Generate URL
+            const baseUrl = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
+            const gameUrl = `${baseUrl}?friend=${friendId}`;
+            const urlLink = document.getElementById('gameUrl');
+            urlLink.href = gameUrl;
+            urlLink.textContent = gameUrl;
+
+            // Scroll to output
+            document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Load example on page load
+        window.addEventListener('load', () => {
+            loadExample();
+        });
+    </script>
+</body>
+</html>

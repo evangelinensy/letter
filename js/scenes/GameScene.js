@@ -118,16 +118,20 @@ class GameScene extends Phaser.Scene {
         }
 
         // Interior walls to create rooms
-        // Vertical divider (middle)
+        // Vertical divider (middle) - with doorway in the middle
         for (let y = tileSize; y < height / 2; y += tileSize) {
-            const wall = this.walls.create(width / 2, y, 'wall');
-            wall.setOrigin(0, 0);
-            wall.refreshBody();
+            // Leave a wider doorway in the vertical wall
+            if (y < height / 4 - 48 || y > height / 4 + 16) {
+                const wall = this.walls.create(width / 2, y, 'wall');
+                wall.setOrigin(0, 0);
+                wall.refreshBody();
+            }
         }
 
-        // Horizontal divider
+        // Horizontal divider - with wider doorway
         for (let x = tileSize; x < width - tileSize; x += tileSize) {
-            if (x < width / 2 - 32 || x > width / 2 + 32) { // Leave doorway
+            // Leave a much wider doorway (96 pixels = 3 tiles wide)
+            if (x < width / 2 - 64 || x > width / 2 + 64) {
                 const wall = this.walls.create(x, height / 2, 'wall');
                 wall.setOrigin(0, 0);
                 wall.refreshBody();
@@ -145,7 +149,7 @@ class GameScene extends Phaser.Scene {
         this.interactiveObjects.push({
             sprite: bookshelf,
             name: 'bookshelf',
-            message: personalizedContent.surprises.bookshelf,
+            data: personalizedContent.surprises.bookshelf,
             interacted: false
         });
 
@@ -156,7 +160,7 @@ class GameScene extends Phaser.Scene {
         this.interactiveObjects.push({
             sprite: table,
             name: 'table',
-            message: personalizedContent.surprises.table,
+            data: personalizedContent.surprises.table,
             interacted: false
         });
 
@@ -167,7 +171,7 @@ class GameScene extends Phaser.Scene {
         this.interactiveObjects.push({
             sprite: plant,
             name: 'plant',
-            message: personalizedContent.surprises.plant,
+            data: personalizedContent.surprises.plant,
             interacted: false
         });
 
@@ -178,7 +182,7 @@ class GameScene extends Phaser.Scene {
         this.interactiveObjects.push({
             sprite: mirror,
             name: 'mirror',
-            message: personalizedContent.surprises.mirror,
+            data: personalizedContent.surprises.mirror,
             interacted: false
         });
     }
@@ -186,7 +190,8 @@ class GameScene extends Phaser.Scene {
     handleNPCInteraction() {
         if (this.npc.canInteract && (Phaser.Input.Keyboard.JustDown(this.interactKey) || window.touchControls?.interactPressed)) {
             window.touchControls?.resetInteract();
-            this.dialogueManager.showDialogue(DIALOGUE_DATA.birthday);
+            const personalizedContent = getPersonalizedContent();
+            this.dialogueManager.showDialogue(personalizedContent.npcGreeting);
         }
     }
 
@@ -204,11 +209,11 @@ class GameScene extends Phaser.Scene {
                     duration: 100,
                     yoyo: true,
                     onComplete: () => {
-                        this.dialogueManager.showDialogue([obj.message]);
+                        this.dialogueManager.showDialogue([obj.data.message], obj.data.imageUrl);
                     }
                 });
             } else {
-                this.dialogueManager.showDialogue([obj.message]);
+                this.dialogueManager.showDialogue([obj.data.message], obj.data.imageUrl);
             }
         }
     }
