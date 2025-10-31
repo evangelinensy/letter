@@ -85,23 +85,62 @@ Then open: `http://localhost:8000`
 
 ## Personalization
 
-Add a `?friend=name` parameter to the URL to load personalized content:
-```
-http://localhost:8000/?friend=john
-```
+Each friend gets their own unique experience via URL parameters!
 
-To add new personalized content, edit the `getPersonalizedContent()` function in `js/config.js`.
+### Quick Start with Admin Panel
+
+1. **Open the Admin Panel:**
+   ```
+   http://localhost:8000/admin.html
+   ```
+   Or on GitHub Pages:
+   ```
+   https://evangelinensy.github.io/letter/admin.html
+   ```
+
+2. **Configure your friend's experience:**
+   - Set their unique Friend ID (e.g., "sarah", "john", "mei")
+   - Write personalized NPC greetings
+   - Add custom messages for each interactive object
+   - Add gift card codes in the table message
+   - Optional: Add image URLs to show photos with messages
+
+3. **Generate the configuration:**
+   - Click "Generate Configuration"
+   - Copy the generated code
+   - Paste it into `js/config.js` in the `personalizedData` object
+   - Commit and push your changes
+
+4. **Share the unique URL:**
+   ```
+   https://evangelinensy.github.io/letter/?friend=sarah
+   ```
+
+### Example URLs
+
+- Birthday theme: `?friend=sarah`
+- Chinese New Year theme: `?friend=mei`
+- General theme: `?friend=john`
+
+### Manual Configuration
+
+You can also manually edit `js/config.js` to add personalized content. Each friend configuration includes:
+- Custom NPC name and greeting dialogue
+- Personalized messages for 4 interactive objects (bookshelf, table, plant, mirror)
+- Optional image URLs for surprises
+- Theme selection (birthday, cny, general)
 
 ## Project Structure
 
 ```
 letter/
-├── index.html              # Main HTML file
+├── index.html              # Main game page
+├── admin.html              # Admin panel for friend configuration
 ├── styles/
 │   └── main.css           # Styles and mobile controls
 ├── js/
 │   ├── main.js            # Game initialization
-│   ├── config.js          # Configuration and data
+│   ├── config.js          # Configuration and personalization data
 │   ├── scenes/
 │   │   ├── PreloadScene.js    # Asset loading
 │   │   └── GameScene.js       # Main game scene
@@ -111,7 +150,7 @@ letter/
 │   ├── controls/
 │   │   └── TouchControls.js   # Mobile touch input
 │   └── ui/
-│       └── DialogueManager.js # Dialogue system
+│       └── DialogueManager.js # Dialogue system with image support
 ```
 
 ## Next Steps
